@@ -1,0 +1,116 @@
+<svg width="354" height="571" viewBox="0 0 354 571" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .wall-line {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    filter: url(#lineGlow);
+    animation: drawMainLine 5200ms cubic-bezier(0.55, 0, 0.2, 1) forwards;
+  }
+
+  .wall-line--inner {
+    animation: drawInnerLine 1100ms cubic-bezier(0.55, 0, 0.2, 1) 5200ms forwards;
+  }
+
+  .room-hit {
+    fill: transparent;
+  }
+
+  .room-number {
+    fill: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-anchor: middle;
+    opacity: 0;
+    filter: url(#textGlow);
+    animation: roomFade 500ms ease-out 6500ms forwards;
+  }
+
+  .room-area {
+    opacity: 0;
+    filter: url(#textGlow);
+    animation: roomFade 500ms ease-out 7000ms forwards;
+  }
+
+  .room-area__label {
+    fill: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-anchor: middle;
+  }
+
+  @keyframes drawMainLine {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes drawInnerLine {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes roomFade {
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+<defs>
+  <filter id="lineGlow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="2.2" result="blur"/>
+    <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.72 0 0 0 0 1 0 0 0 0 0.94 0 0 0 0.85 0" result="glow"/>
+    <feMerge>
+      <feMergeNode in="glow"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+  <filter id="textGlow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="1.8" result="blur"/>
+    <feMerge>
+      <feMergeNode in="blur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+<g transform="translate(-122 -36)">
+<path class="wall-line" pathLength="1" d="M142 72.5V36.5H475.5V606.5H240V386.5H229.5V377.5H248V430.5H258V437.5H248V595H341V439H290V430.5H341H349.5V595H463V386.5H350.5V391.5H341V386.5H298V377.5H341V339.5H346V377.5H463V308.5H302V298H463V86.5H420V75H467V42.5H146.902V72.5L152.5 74V84.5H142V233H201.5V264.5H196V249H142V298H201.5V308.5H142V377.5H191V386.5H134V308.5H123.5L128 304L122 298H134V84.5H125L131 78.5L125 72.5H142Z"/>
+<path class="wall-line wall-line--inner" pathLength="1" d="M282.5 74H233V84.5H243V308.5H262V298H253V84.5H282.5V74Z"/>
+<path class="room-hit" id="room-balcony" data-room="balcony" d="M147.5 73V42.5H467V75L147.5 73Z"/>
+<path class="room-hit" id="room-kitchen" data-room="kitchen" d="M141.5 233V84.5H243V233H141.5Z"/>
+<path class="room-hit" id="room-living" data-room="living" d="M463 86.5L253 84.5V297.5H463V86.5Z"/>
+<path class="room-hit" id="room-toilet" data-room="toilet" d="M142 298V249H196V264H201.5V298H142Z"/>
+<path class="room-hit" id="room-hallway" data-room="hallway" d="M201.5 308.5V233H242.5V308.5H341.5V377.5H297.5V386.5H341.5V430.5H248V377.5H142V308.5H201.5Z"/>
+<path class="room-hit" id="room-bathroom" data-room="bathroom" d="M346 308.5V377.5H463V308.5H346Z"/>
+<path class="room-hit" id="room-kids" data-room="kids" d="M248 595V438H341V595H248Z"/>
+<path class="room-hit" id="room-bedroom" data-room="bedroom" d="M350.5 595V386.5H463V595H350.5Z"/>
+<text class="room-number" x="307" y="63">1</text>
+<text class="room-number" x="192" y="163">2</text>
+<text class="room-number" x="358" y="193">3</text>
+<text class="room-number" x="171" y="281">4</text>
+<text class="room-number" x="245" y="348">5</text>
+<text class="room-number" x="405" y="351">6</text>
+<text class="room-number" x="295" y="520">7</text>
+<text class="room-number" x="407" y="493">8</text>
+<g class="room-area">
+  <text class="room-area__label" x="192" y="188">10 м²</text>
+</g>
+<g class="room-area">
+  <text class="room-area__label" x="358" y="222">25 м²</text>
+</g>
+<g class="room-area">
+  <text class="room-area__label" x="295" y="546">8 м²</text>
+</g>
+<g class="room-area">
+  <text class="room-area__label" x="407" y="519">10 м²</text>
+</g>
+</g>
+</svg>

@@ -1,0 +1,11 @@
+backend/.env
+backend/node_modules/
+*.log
+.DS_Store
+.claude/
+CODEX_PROMPT.md
+DEPLOY_CHECKLIST.md
+PROJECT_STATUS.md
+seo_prompt_v4.md
+README.md
+!README.md

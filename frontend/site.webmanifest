@@ -1,0 +1,9 @@
+{
+  "name": "Квартира у парка",
+  "short_name": "Квартира",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070908",
+  "theme_color": "#070908",
+  "lang": "ru-RU"
+}
