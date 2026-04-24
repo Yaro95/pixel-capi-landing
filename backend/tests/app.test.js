@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
 const { once } = require('node:events');
+const { Duplex } = require('node:stream');
 
 function withEnv(overrides, fn) {
   const previous = {
@@ -43,7 +44,6 @@ test('health endpoint returns 200 with ok status payload', async () => {
     delete require.cache[require.resolve('../src/app')];
     const { app } = require('../src/app');
 
-    const server = http.createServer(app);
     const request = new http.IncomingMessage();
     request.method = 'GET';
     request.url = '/health';
@@ -52,7 +52,7 @@ test('health endpoint returns 200 with ok status payload', async () => {
     const response = new http.ServerResponse(request);
     let body = '';
 
-    response.assignSocket(new require('node:stream').Duplex({
+    response.assignSocket(new Duplex({
       read() {},
       write(chunk, _encoding, callback) {
         body += chunk.toString();
@@ -69,6 +69,5 @@ test('health endpoint returns 200 with ok status payload', async () => {
     assert.deepEqual(JSON.parse(responseBody), { status: 'ok' });
 
     response.socket.destroy();
-    server.close();
   });
 });
