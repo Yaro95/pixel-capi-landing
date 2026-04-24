@@ -1,3 +1,6 @@
+const FBP_PATTERN = /^fb\.1\.\d{10,13}\.[A-Za-z0-9._-]+$/;
+const FBC_PATTERN = /^fb\.1\.\d{10,13}\.[A-Za-z0-9_-]+$/;
+
 function getCookie(name) {
   return document.cookie
     .split(';')
@@ -55,14 +58,29 @@ function ensureFbcCookie() {
 }
 
 function getMetaIds() {
+  const rawFbp = getCookie('_fbp');
+  const rawFbc = getCookie('_fbc') || ensureFbcCookie();
+
   return {
-    fbp: getCookie('_fbp'),
-    fbc: getCookie('_fbc') || ensureFbcCookie()
+    fbp: FBP_PATTERN.test(rawFbp || '') ? rawFbp : undefined,
+    fbc: FBC_PATTERN.test(rawFbc || '') ? rawFbc : undefined
+  };
+}
+
+function getPageContext() {
+  const language = document.documentElement.lang || 'ru';
+  const pathname = window.location.pathname || '/';
+
+  return {
+    page_language: language.toLowerCase(),
+    page_variant: pathname.includes('/uz/') ? 'uz' : 'ru',
+    page_path: pathname
   };
 }
 
 function buildPayload(eventId) {
   const metaIds = getMetaIds();
+  const pageContext = getPageContext();
 
   return {
     event_name: 'Lead',
@@ -73,7 +91,8 @@ function buildPayload(eventId) {
     fbc: metaIds.fbc,
     custom_data: {
       content_ids: ['apt_001'],
-      content_type: 'product'
+      content_type: 'product',
+      ...pageContext
     }
   };
 }
@@ -85,12 +104,25 @@ async function sendCapiEvent(payload) {
   const timeoutId = setTimeout(() => controller.abort(), CAPI_REQUEST_TIMEOUT_MS);
 
   try {
-    await fetch(API_URL, {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       signal: controller.signal
     });
+
+    if (!response.ok) {
+      let errorDetails = `HTTP ${response.status}`;
+
+      try {
+        const body = await response.json();
+        errorDetails = JSON.stringify(body);
+      } catch (_) {
+        // Ignore JSON parse failures and keep the generic status text.
+      }
+
+      throw new Error(`CAPI request failed: ${errorDetails}`);
+    }
   } finally {
     clearTimeout(timeoutId);
   }
@@ -109,7 +141,8 @@ async function handleTelegramClick(event) {
 
   try {
     await sendCapiEvent(payload);
-  } catch (_) {
+  } catch (error) {
+    console.error(error.message);
     // Telegram redirect is more important than blocking the user on tracking.
   } finally {
     window.location.href = `https://t.me/${TG_USERNAME}`;

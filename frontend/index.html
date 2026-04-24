@@ -8,6 +8,9 @@
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#070908">
     <link rel="canonical" href="https://example.com/">
+    <link rel="alternate" hreflang="ru" href="https://example.com/">
+    <link rel="alternate" hreflang="uz" href="https://example.com/uz/">
+    <link rel="alternate" hreflang="x-default" href="https://example.com/">
     <link rel="manifest" href="site.webmanifest">
     <link rel="preload" href="assets/plan.svg" as="image" type="image/svg+xml">
     <link rel="preload" href="assets/photos/living-room.webp" as="image" type="image/webp">
@@ -46,10 +49,14 @@
     </noscript>
     <!-- End Meta Pixel Code -->
   </head>
-  <body>
+  <body class="has-mobile-bar">
     <main class="page">
       <section class="hero" aria-label="Планировка квартиры">
         <div class="hero__plan">
+          <nav class="lang-switch" aria-label="Переключение языка">
+            <a class="lang-switch__link" href="index.html" aria-current="true">RU</a>
+            <a class="lang-switch__link" href="uz/index.html">UZ</a>
+          </nav>
           <h1 id="page-title" class="hero__title">3-комнатная квартира</h1>
           <img src="assets/plan.svg" alt="Планировка квартиры с пронумерованными зонами">
           <ol class="plan-legend" aria-label="Расшифровка зон планировки">
@@ -158,6 +165,18 @@
         </div>
       </section>
     </main>
+
+    <div class="mobile-action-bar" aria-label="Быстрые действия">
+      <div class="mobile-action-bar__inner">
+        <nav class="lang-switch" aria-label="Переключение языка">
+          <a class="lang-switch__link" href="index.html" aria-current="true">RU</a>
+          <a class="lang-switch__link" href="uz/index.html">UZ</a>
+        </nav>
+        <button class="telegram-button mobile-action-bar__cta" type="button" data-telegram-link>
+          Связаться в Telegram
+        </button>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <p class="site-footer__note">Сайт использует cookies, инструменты Meta и аналитические сервисы для оценки трафика и рекламных кампаний.</p>
