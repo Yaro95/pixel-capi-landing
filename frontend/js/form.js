@@ -227,6 +227,46 @@ function initCarousel() {
   updateCarousel();
 }
 
+function scheduleNonCriticalTask(task) {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(task, { timeout: 800 });
+    return;
+  }
+
+  window.setTimeout(task, 0);
+}
+
+function initCarouselWhenVisible() {
+  const carousel = document.querySelector('[data-carousel]');
+  if (!carousel) return;
+
+  let initialized = false;
+  let observer;
+
+  function startCarousel() {
+    if (initialized) return;
+    initialized = true;
+    observer?.disconnect();
+    scheduleNonCriticalTask(initCarousel);
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    startCarousel();
+    return;
+  }
+
+  observer = new IntersectionObserver((entries) => {
+    if (!entries[0]?.isIntersecting) return;
+    startCarousel();
+  }, {
+    rootMargin: '220px 0px'
+  });
+
+  observer.observe(carousel);
+  carousel.addEventListener('pointerdown', startCarousel, { once: true, passive: true });
+  carousel.addEventListener('focusin', startCarousel, { once: true });
+}
+
 function initCookieBanner() {
   const banner = document.querySelector('[data-cookie-banner]');
   const acceptButton = document.querySelector('[data-cookie-accept]');
@@ -245,7 +285,7 @@ function initCookieBanner() {
 
 document.addEventListener('DOMContentLoaded', () => {
   ensureFbcCookie();
-  initCarousel();
+  initCarouselWhenVisible();
   initCookieBanner();
 
   document

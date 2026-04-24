@@ -264,12 +264,13 @@ a {
 }
 
 .plan-legend li {
-  width: 0;
-  max-width: max-content;
-  overflow: hidden;
+  width: 100%;
+  max-width: none;
+  overflow: visible;
   white-space: nowrap;
   opacity: 0;
-  animation: typeLegend 520ms steps(24, end) forwards;
+  transform: translateY(8px);
+  animation: revealLegend 420ms ease-out forwards;
 }
 
 .plan-legend li:nth-child(1) {
@@ -309,15 +310,15 @@ a {
   font-weight: 700;
 }
 
-@keyframes typeLegend {
+@keyframes revealLegend {
   from {
-    width: 0;
-    opacity: 1;
+    opacity: 0;
+    transform: translateY(8px);
   }
 
   to {
-    width: 100%;
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
