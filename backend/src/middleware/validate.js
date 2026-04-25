@@ -7,7 +7,7 @@ const MAX_CUSTOM_DATA_KEYS = 20;
 const validateEvent = [
   body('event_name')
     .isString()
-    .isIn(['Lead', 'Contact'])
+    .isIn(['Lead', 'Contact', 'ViewContent'])
     .withMessage('Invalid event name'),
   body('event_id')
     .isString()

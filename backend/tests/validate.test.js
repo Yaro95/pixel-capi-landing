@@ -55,6 +55,18 @@ test('validateEvent accepts a valid payload', async () => {
   assert.equal(result.body, null);
 });
 
+test('validateEvent accepts ViewContent payloads', async () => {
+  const payload = buildValidPayload();
+  payload.event_name = 'ViewContent';
+  payload.event_id = 'ViewContent_test';
+
+  const result = await runValidation(payload);
+
+  assert.equal(result.nextCalled, true);
+  assert.equal(result.statusCode, null);
+  assert.equal(result.body, null);
+});
+
 test('validateEvent rejects malformed fbc values', async () => {
   const payload = buildValidPayload();
   payload.fbc = 'not-valid';

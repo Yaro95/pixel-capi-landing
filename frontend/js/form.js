@@ -78,12 +78,12 @@ function getPageContext() {
   };
 }
 
-function buildPayload(eventId) {
+function buildPayload(eventName, eventId, extraCustomData = {}) {
   const metaIds = getMetaIds();
   const pageContext = getPageContext();
 
   return {
-    event_name: 'Lead',
+    event_name: eventName,
     event_id: eventId,
     event_time: Math.floor(Date.now() / 1000),
     source_url: window.location.href,
@@ -92,7 +92,8 @@ function buildPayload(eventId) {
     custom_data: {
       content_ids: ['apt_001'],
       content_type: 'product',
-      ...pageContext
+      ...pageContext,
+      ...extraCustomData
     }
   };
 }
@@ -131,7 +132,7 @@ async function sendCapiEvent(payload) {
 async function handleTelegramClick(event) {
   const button = event.currentTarget;
   const eventId = window.generateEventId('Lead');
-  const payload = buildPayload(eventId);
+  const payload = buildPayload('Lead', eventId);
 
   button.disabled = true;
 
@@ -147,6 +148,19 @@ async function handleTelegramClick(event) {
   } finally {
     window.location.href = `https://t.me/${TG_USERNAME}`;
   }
+}
+
+function trackViewContent() {
+  const eventId = window.generateEventId('ViewContent');
+  const payload = buildPayload('ViewContent', eventId);
+
+  if (typeof fbq === 'function') {
+    fbq('track', 'ViewContent', payload.custom_data, { eventID: eventId });
+  }
+
+  sendCapiEvent(payload).catch((error) => {
+    console.error(error.message);
+  });
 }
 
 function initCarousel() {
@@ -285,6 +299,7 @@ function initCookieBanner() {
 
 document.addEventListener('DOMContentLoaded', () => {
   ensureFbcCookie();
+  trackViewContent();
   initCarouselWhenVisible();
   initCookieBanner();
 
