@@ -131,13 +131,13 @@ async function sendCapiEvent(payload) {
 
 async function handleTelegramClick(event) {
   const button = event.currentTarget;
-  const eventId = window.generateEventId('Lead');
-  const payload = buildPayload('Lead', eventId);
+  const eventId = window.generateEventId('Contact');
+  const payload = buildPayload('Contact', eventId);
 
   button.disabled = true;
 
   if (typeof fbq === 'function') {
-    fbq('track', 'Lead', payload.custom_data, { eventID: eventId });
+    fbq('track', 'Contact', payload.custom_data, { eventID: eventId });
   }
 
   try {

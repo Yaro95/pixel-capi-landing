@@ -34,8 +34,8 @@ function buildValidPayload() {
   const timestamp = Math.floor(Date.now() / 1000);
 
   return {
-    event_name: 'Lead',
-    event_id: 'Lead_test',
+    event_name: 'Contact',
+    event_id: 'Contact_test',
     event_time: timestamp,
     source_url: 'http://localhost:5500/frontend/index.html',
     fbp: `fb.1.${timestamp}.1234567890`,
