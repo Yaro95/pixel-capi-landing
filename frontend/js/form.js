@@ -131,10 +131,11 @@ async function sendCapiEvent(payload) {
   }
 }
 
-async function handleTelegramClick(event) {
-  const button = event.currentTarget;
+async function handleContactClick(button, destination, contactMethod) {
   const eventId = window.generateEventId('Contact');
-  const payload = buildPayload('Contact', eventId);
+  const payload = buildPayload('Contact', eventId, {
+    contact_method: contactMethod
+  });
 
   button.disabled = true;
 
@@ -146,10 +147,25 @@ async function handleTelegramClick(event) {
     await sendCapiEvent(payload);
   } catch (error) {
     console.error(error.message);
-    // Telegram redirect is more important than blocking the user on tracking.
   } finally {
-    window.location.href = `https://t.me/${TG_USERNAME}`;
+    window.location.href = destination;
   }
+}
+
+async function handleTelegramClick(event) {
+  await handleContactClick(
+    event.currentTarget,
+    `https://t.me/${TG_USERNAME}`,
+    'telegram'
+  );
+}
+
+async function handlePhoneClick(event) {
+  await handleContactClick(
+    event.currentTarget,
+    `tel:${PHONE_NUMBER}`,
+    'phone'
+  );
 }
 
 function delay(ms) {
@@ -323,7 +339,7 @@ function initCookieBanner() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
   ensureFbcCookie();
   trackViewContent();
   initCarouselWhenVisible();
@@ -332,4 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document
     .querySelectorAll('[data-telegram-link]')
     .forEach((button) => button.addEventListener('click', handleTelegramClick));
+
+  document
+    .querySelectorAll('[data-phone-link]')
+    .forEach((button) => button.addEventListener('click', handlePhoneClick));
 });

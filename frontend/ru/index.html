@@ -36,6 +36,7 @@
     <script>
       const PIXEL_ID = '1677992970314708';
       const TG_USERNAME = 'I_Yaro_I';
+      const PHONE_NUMBER = '+998951135995';
       const API_URL = 'https://apartment.leadora.uz/api/events'; // Local dev: http://localhost:3000/api/events
     </script>
     <!-- Meta Pixel Code -->
@@ -131,9 +132,14 @@
             <strong>$90 000</strong>
           </span>
         </div>
-        <button class="telegram-button gallery__cta" type="button" data-telegram-link>
-          Связаться в Telegram
-        </button>
+        <div class="contact-actions" aria-label="Способы связи">
+          <button class="telegram-button gallery__cta" type="button" data-telegram-link>
+            Связаться в Telegram
+          </button>
+          <button class="phone-button gallery__cta" type="button" data-phone-link>
+            Позвонить
+          </button>
+        </div>
       </section>
 
       <section class="location" aria-labelledby="location-title">
@@ -150,9 +156,14 @@
             <li>Развитое транспортное сообщение</li>
             <li>15 минут до метро</li>
           </ul>
-          <button class="telegram-button location__cta" type="button" data-telegram-link>
-            Связаться в Telegram
-          </button>
+          <div class="contact-actions contact-actions--start" aria-label="Способы связи">
+            <button class="telegram-button location__cta" type="button" data-telegram-link>
+              Связаться в Telegram
+            </button>
+            <button class="phone-button location__cta" type="button" data-phone-link>
+              Позвонить
+            </button>
+          </div>
         </div>
         <div class="map-shell">
           <div class="map-preview" aria-hidden="true">
@@ -176,6 +187,9 @@
           <a class="lang-switch__link" href="/ru/" aria-current="true">RU</a>
           <a class="lang-switch__link" href="/uz/">UZ</a>
         </nav>
+        <button class="phone-button mobile-action-bar__cta" type="button" data-phone-link>
+          Позвонить
+        </button>
         <button class="telegram-button mobile-action-bar__cta" type="button" data-telegram-link>
           Связаться в Telegram
         </button>

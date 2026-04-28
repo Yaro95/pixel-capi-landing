@@ -9,6 +9,7 @@ router.post('/events', validateEvent, async (req, res) => {
   const trafficContext = {
     has_fbp: Boolean(fbp),
     has_fbc: Boolean(fbc),
+    contact_method: custom_data?.contact_method || null,
     page_variant: custom_data?.page_variant || null,
     page_path: custom_data?.page_path || null,
     source_url: source_url || null
