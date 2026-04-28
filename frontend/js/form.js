@@ -137,8 +137,6 @@ async function handleContactClick(button, destination, contactMethod) {
     contact_method: contactMethod
   });
 
-  button.disabled = true;
-
   if (typeof fbq === 'function') {
     fbq('track', 'Contact', payload.custom_data, { eventID: eventId });
   }
