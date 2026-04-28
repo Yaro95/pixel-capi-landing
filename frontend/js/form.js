@@ -99,6 +99,8 @@ function buildPayload(eventName, eventId, extraCustomData = {}) {
 }
 
 const CAPI_REQUEST_TIMEOUT_MS = 2500;
+const VIEWCONTENT_FBP_WAIT_MS = 1000;
+const VIEWCONTENT_FBP_POLL_MS = 120;
 
 async function sendCapiEvent(payload) {
   const controller = new AbortController();
@@ -150,12 +152,36 @@ async function handleTelegramClick(event) {
   }
 }
 
-function trackViewContent() {
+function delay(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+async function waitForMetaBrowserId(timeoutMs, pollMs) {
+  const startedAt = Date.now();
+
+  while (Date.now() - startedAt < timeoutMs) {
+    const { fbp } = getMetaIds();
+    if (fbp) return fbp;
+
+    await delay(pollMs);
+  }
+
+  return undefined;
+}
+
+async function trackViewContent() {
   const eventId = window.generateEventId('ViewContent');
-  const payload = buildPayload('ViewContent', eventId);
+  let payload = buildPayload('ViewContent', eventId);
 
   if (typeof fbq === 'function') {
     fbq('track', 'ViewContent', payload.custom_data, { eventID: eventId });
+  }
+
+  if (!payload.fbp) {
+    await waitForMetaBrowserId(VIEWCONTENT_FBP_WAIT_MS, VIEWCONTENT_FBP_POLL_MS);
+    payload = buildPayload('ViewContent', eventId);
   }
 
   sendCapiEvent(payload).catch((error) => {

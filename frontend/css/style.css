@@ -911,14 +911,14 @@ h2 {
 
 .carousel {
   position: relative;
-  max-width: 1180px;
+  max-width: 1280px;
   margin-inline: auto;
   padding: 0 74px 34px;
 }
 
 .carousel__viewport {
   overflow: hidden;
-  padding: 34px 0;
+  padding: 42px 0;
 }
 
 .carousel__track {
@@ -930,14 +930,14 @@ h2 {
 }
 
 .carousel__slide {
-  flex: 0 0 64%;
+  flex: 0 0 70%;
   margin: 0;
   aspect-ratio: 16 / 10;
   background: #dfe5dd;
   overflow: hidden;
   border-radius: 8px;
   opacity: 0.46;
-  transform: scale(0.76);
+  transform: scale(0.82);
   transition: opacity 280ms ease, transform 280ms ease, filter 280ms ease;
   filter: saturate(0.7);
 }
@@ -959,7 +959,7 @@ h2 {
 
 .carousel__slide.is-neighbor {
   opacity: 0.72;
-  transform: scale(0.86);
+  transform: scale(0.9);
 }
 
 .carousel__button {
